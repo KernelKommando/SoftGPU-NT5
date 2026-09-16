@@ -5,6 +5,7 @@ A very simple installation script for the SoftGPU software renderer, for use in 
 You'll need the following:
 
  - dos2unix
- - 
+ - 7za
+ - gcab
 
 

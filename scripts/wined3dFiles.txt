@@ -1,0 +1,9 @@
+d3d8_xp.dll
+d3d9_xp.dll
+ddraw_xp.dll
+opengl32.dll
+uninwd3d.inf
+wined3d.dll
+wined8.dll
+wined9.dll
+winedd.dll
