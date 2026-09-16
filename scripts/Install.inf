@@ -1,0 +1,100 @@
+[Version]
+Signature="$CHICAGO$"
+AdvancedINF=2.5,"You must install Internet Explorer 4 or newer"
+
+[DefaultInstall]
+BeginPrompt = FirstDialog
+DelFiles = DeleteDLLCache
+RenFiles = RenameInSystem
+CopyFiles = CopyToDLLCache,CopyToSystem
+UpdateInis = StartMenu
+EndPrompt= LastDialog
+
+[FirstDialog]
+Title = "Unofficial SoftGPU's WineD3D Install Script"
+ButtonType = YESNO
+Prompt = "Do you wish to install SoftGPU's WineD3D Software Renderer?"
+
+[LastDialog]
+Prompt = "Installation completed."
+
+[SourceDisksNames]
+1 = "Unofficial SoftGPU's WineD3D Software INSTALL Cabinet File",install.cab,0
+
+[SourceDisksFiles]
+; Mesa 3D
+opengl32.dll = 1
+
+; WineD3D d3dX replacements
+ddraw_xp.dll = 1
+d3d8_xp.dll = 1
+d3d9_xp.dll = 1
+
+; WineD3D Core files
+wined3d.dll = 1
+winedd.dll = 1
+wined8.dll = 1
+wined9.dll = 1
+
+; Uninstall Script
+uninwd3d.inf = 1
+
+
+[DestinationDirs]
+DeleteDLLCache=11,dllcache
+RenameInSystem=11
+CopyToDLLCache=11,dllcache
+CopyToSystem=11
+
+
+[DeleteDLLCache]
+opengl32.dll
+ddraw.dll
+d3d8.dll
+d3d9.dll
+
+
+
+[RenameInSystem]
+opengl32.old,opengl32.dll
+ddsys.dll,ddraw.dll
+msd3d8.dll,d3d8.dll
+msd3d9.dll,d3d9.dll
+
+
+
+[CopyToDLLCache]
+; Mesa 3D
+opengl32.dll,,,4
+
+; WineD3D d3dX replacements
+ddraw.dll,ddraw_xp.dll,,4
+d3d8.dll,d3d8_xp.dll,,4
+d3d9.dll,d3d9_xp.dll,,4
+
+
+
+[CopyToSystem]
+; Mesa 3D
+opengl32.dll,,,4
+
+; WineD3D d3dX replacements
+ddraw.dll,ddraw_xp.dll,,4
+d3d8.dll,d3d8_xp.dll,,4
+d3d9.dll,d3d9_xp.dll,,4
+
+; WineD3D Core files
+wined3d.dll,,,4
+winedd.dll,,,4
+wined8.dll,,,4
+wined9.dll,,,4
+
+; Uninstall Script
+uninwd3d.inf,,,4
+
+
+[StartMenu]
+setup.ini,progman.groups,,"GROUP_SOFTGPU=""SoftGPU's WineD3D"""
+setup.ini,GROUP_SOFTGPU,," ""Uninstall"", ""rundll32.exe advpack.dll,LaunchINFSection %windir%\system32\uninwd3d.inf,,,N"",""%11%\SHELL32.DLL"",102,,""%WINDIR%"" " 
+
+;
