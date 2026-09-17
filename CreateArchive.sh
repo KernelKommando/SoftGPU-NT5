@@ -71,6 +71,7 @@ delDir ./output
 
 	createDir output
 	createDir output/Files
+	createDir output/Files/dx9
 	createDir originalFiles
 	createDir originalFiles/cabfiles
 
@@ -105,6 +106,7 @@ echo "Obtaining required files building CAB file"
 
 	7za e -y mesa9x-23.1.9.138-driver-win98.zip -o./cabfiles extra/opengl32.dll 
 	7za e -y wine9x-1.7.55.45-sse3.zip -o./cabfiles -i@../scripts/wined3dFiles.txt
+	7za e -y directx_feb2010_redist.exe -o../output/Files/dx9 -i@../scripts/dx9InstallerFiles.txt
 
 cd cabfiles
 sha1sum *.dll > 0_checksums.txt
