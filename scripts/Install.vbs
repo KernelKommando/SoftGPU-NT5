@@ -66,12 +66,16 @@ If (objFS.FileExists(SYSDIR + "d3d9.dll")) Then
 Else
 	dx9 = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
 	If (dx9 = vbOk) Then
+
 		directXsetup = chr(34) + currentDir + "\Files\dx9\dxsetup.exe" + chr(34) + " /silent"
 		Run directXsetup
-		objShell.RegWrite runlogin + "SoftGPU Install","wscript.exe " + chr(34) + thisScript + chr(34),"REG_SZ"
+
+		installOnNextBoot =  runlogin + "SoftGPU Install","wscript.exe " + chr(34) + thisScript + chr(34)
+		objShell.RegWrite installOnNextBoot,"REG_SZ"
+
 		msg = Msgbox("DirectX9 installed. System will reboot now.",vbInformation+vbOkOnly,title)
-		'Run "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + currentDir + "\Files\Install.inf" + chr(34) + ",Reboot,,"	
-		Run "Rundll32.exe setupapi.dll,InstallHinfSection Reboot 129 " + currentDir + "\Files\Install.inf"
+		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 129 " + currentDir + "\Files\Install.inf"
+
 	Else
 		msg = Msgbox("SoftGPU was not installed",vbOkOnly,title)
 	End If
