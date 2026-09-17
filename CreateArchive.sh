@@ -79,7 +79,6 @@ delDir ./output
 	cp ./scripts/Install.vbs ./output
 	cp ./scripts/uninwd3d.inf ./originalFiles/cabfiles
 
-
 echo " "
 echo "Prepare originalFiles directory"
 cd originalFiles

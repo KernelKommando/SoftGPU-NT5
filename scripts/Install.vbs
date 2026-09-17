@@ -16,6 +16,7 @@ WINDIR = objShell.ExpandEnvironmentStrings("%WINDIR%")
 SYSDIR = WINDIR + "\SYSTEM32\"
 TEMP = objShell.ExpandEnvironmentStrings("%TEMP%")
 TEMP = TEMP + "\"
+runlogin = "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\"
 runonce = "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\"
 
 '
@@ -57,19 +58,22 @@ If (objFS.FileExists(SYSDIR + "d3d9.dll")) Then
 	FileCopy currentDir + "\Files\","Install.inf",TEMP 
 	FileCopy currentDir + "\Files\","Install.cab",TEMP
 
-	Run "rundll32.exe advpack.dll,LaunchINFSection " + TEMP + "Install.inf,,,"
+	installScript = "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + TEMP + "Install.inf" + chr(34) + ",,,"
+	Run installScript
 	FileClear TEMP + "Install.inf"
 	FileClear TEMP + "Install.cab"
 
 Else
 	dx9 = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
 	If (dx9 = vbOk) Then
-		Run ".\Files\dx9\dxsetup.exe /silent"
-		objShell.RegWrite runonce + "SoftGPU Install","wscript.exe " + chr(34) + thisScript + chr(34),"REG_SZ"
+		directXsetup = chr(34) + currentDir + "\Files\dx9\dxsetup.exe" + chr(34) + " /silent"
+		Run directXsetup
+		objShell.RegWrite runlogin + "SoftGPU Install","wscript.exe " + chr(34) + thisScript + chr(34),"REG_SZ"
 		msg = Msgbox("DirectX9 installed. System will reboot now.",vbInformation+vbOkOnly,title)
+		'Run "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + currentDir + "\Files\Install.inf" + chr(34) + ",Reboot,,"	
+		Run "Rundll32.exe setupapi.dll,InstallHinfSection Reboot 129 " + currentDir + "\Files\Install.inf"
 	Else
 		msg = Msgbox("SoftGPU was not installed",vbOkOnly,title)
-		WScript.Quit
 	End If
 End If
 
