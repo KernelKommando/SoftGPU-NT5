@@ -3,17 +3,11 @@ Signature="$CHICAGO$"
 AdvancedINF=2.5,"You must install Internet Explorer 4 or newer"
 
 [DefaultInstall]
-BeginPrompt = FirstDialog
 DelFiles = DeleteDLLCache
 RenFiles = RenameInSystem
 CopyFiles = CopyToDLLCache,CopyToSystem
 UpdateInis = StartMenu
 EndPrompt= LastDialog
-
-[FirstDialog]
-Title = "Unofficial SoftGPU's WineD3D Install Script"
-ButtonType = YESNO
-Prompt = "Do you wish to install SoftGPU's WineD3D Software Renderer?"
 
 [LastDialog]
 Prompt = "Installation completed."
