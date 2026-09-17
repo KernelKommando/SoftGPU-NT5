@@ -80,8 +80,8 @@ delDir ./output
 	cp ./scripts/uninwd3d.inf ./originalFiles/cabfiles
 
 
-echo "Prepare originalFiles directory"
 echo " "
+echo "Prepare originalFiles directory"
 cd originalFiles
 
 	# JHRobotics' WineD3D
@@ -115,6 +115,7 @@ sha512sum *.dll >> 0_checksums.txt
 unix2dos 0_checksums.txt
 gcab -c ../../output/Files/install.cab *.*
 
+echo " "
 echo "Done."
 
 
