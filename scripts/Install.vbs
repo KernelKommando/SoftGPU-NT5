@@ -6,14 +6,21 @@
 '
 ' GLOBALS
 '
+
+title = "Unofficial SoftGPU's WineD3D Install Script"
 Set objShell = CreateObject("WScript.Shell")
 Set objFS = CreateObject("Scripting.FileSystemObject")
+thisScript = WScript.ScriptFullName
+currentDir = objFS.GetParentFolderName(thisScript)
+TEMP = objShell.ExpandEnvironmentStrings("%TEMP%")
+TEMP = TEMP + "\"
+runonce = "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\"
 
 '
 ' FUNCTIONS
 '
 
-function FileCopy (sourceDir,file, endDir)
+function FileCopy (sourceDir, file, endDir)
 
 	endFile = endDir + file
 	If objFS.FileExists(endFile) Then
@@ -23,44 +30,48 @@ function FileCopy (sourceDir,file, endDir)
 
 end function
 
-
 function FileClear (file)
 	objFS.DeleteFile file,true
+end function
+
+function Run (program)
+	objShell.Run program, 1, true
+end function
+
+function CopyTempFiles
+	' Copy the Installer files to Temp, so that we can avoid 
+	' executing the INF script from a path with weird characters
+	FileCopy currentDir + "\Files\","Install.inf",TEMP 
+	FileCopy currentDir + "\Files\","Install.cab",TEMP
+end function
+
+function RunAndClear
+	Run "rundll32.exe advpack.dll,LaunchINFSection " + TEMP + "Install.inf,,,"
+	FileClear TEMP + "Install.inf"
+	FileClear TEMP + "Install.cab"
 end function
 
 
 '
 ' MAIN
 '
-title = "Unofficial SoftGPU's WineD3D Install Script"
 
 ' Check for DirectX9
+WINDIR = objShell.ExpandEnvironmentStrings("%WINDIR%")
+SYSTEM = WINDIR + "\SYSTEM32\"
+If (objFS.FileExists(SYSTEM + "d3d9.dll")) Then 
+	CopyTempFiles
+	RunAndClear
 
-SYSTEM = objShell.ExpandEnvironmentStrings("%WINDIR%")
-SYSTEM = SYSTEM + "\SYSTEM32\"
-If (objFS.FileExists(SYSTEM + "d3d9.dll")) Then
-	' Get TEMP directory
-	TEMP = objShell.ExpandEnvironmentStrings("%TEMP%")
-	TEMP = TEMP + "\"
-
-	' Copy the Installer files to Temp, so that we can avoid 
-	' executing the INF script from a path with weird characters
-	FileCopy ".\Files\","Install.inf",TEMP
-	FileCopy ".\Files\","Install.cab",TEMP
-
-	' Execute INF Script
-	objShell.Run "rundll32.exe advpack.dll,LaunchINFSection " + TEMP + "Install.inf,,,", 1, true
-
-	' Clear Temporary files
-	FileClear TEMP + "Install.inf"
-	FileClear TEMP + "Install.cab"
 Else
 	dx9 = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
 	If (dx9 = 1) Then
-		objShell.Run ".\Files\dx9\dxsetup.exe /silent", 1, true
-		dx9 = Msgbox("DirectX9 installed. System will reboot now.",vbInformation+vbOk,title)
+		Run ".\Files\dx9\dxsetup.exe /silent"
+		objShell.RegWrite runonce + "SoftGPU Install","wscript.exe " + chr(34) + thisScript + chr(34),"REG_SZ"
+		dx9 = Msgbox("DirectX9 installed. System will reboot now.",vbInformation+vbOkOnly,title)
 	Else
-		dx9 = Msgbox("SoftGPU installation was cancelled",vbInformation,title)
+		dx9 = Msgbox("SoftGPU was not installed",vbOkOnly,title)
+		WScript.Quit
 	End If
 End If
 
