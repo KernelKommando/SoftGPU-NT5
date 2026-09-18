@@ -7,14 +7,10 @@ DelFiles = DeleteDLLCache
 RenFiles = RenameInSystem
 CopyFiles = CopyToDLLCache,CopyToSystem
 UpdateInis = StartMenu
-EndPrompt= LastDialog
 
 [Reboot]
 ; Section used by Install.vbs to trigger a reboot
 Reboot=1
-
-[LastDialog]
-Prompt = "Installation completed."
 
 [SourceDisksNames]
 1 = "Unofficial SoftGPU's WineD3D Software INSTALL Cabinet File",install.cab,0
