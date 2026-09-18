@@ -19,7 +19,7 @@ TEMP = TEMP + "\"
 
 silentMode = 0
 disableDialogs = 0
-alwaysDisplayEndDialog=0
+postResetMode=0
 
 '
 ' FUNCTIONS
@@ -43,8 +43,12 @@ function Run (program)
 	objShell.Run program, 1, true
 end function
 
-function RunAfterLogin (caption, program)
+function AddToStartup (caption, program)
 	objShell.RegWrite "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\" + caption, program,"REG_SZ"
+end function
+
+function RemoveFromStartup (caption)
+	objShell.RegDelete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\" + caption
 end function
 
 function Say (message, vbType)
@@ -62,7 +66,7 @@ If (WScript.Arguments.Count > 0) Then
 		disableDialogs = 1
 	End If
 	If (WScript.Arguments(0) = "/2nd_stage_dx9") Then
-		alwaysDisplayEndDialog = 1
+		postResetMode = 1
 		disableDialogs = 1
 	End If
 End If
@@ -88,7 +92,9 @@ If (objFS.FileExists(SYSDIR + "d3d9.dll")) Then
 	FileClear TEMP + "Install.inf"
 	FileClear TEMP + "Install.cab"
 
-	If (alwaysDisplayEndDialog = 1) Then
+	RemoveFromStartup "SoftGPU Install"
+
+	If (postResetMode = 1) Then
 		disableDialogs = 0
 	End If
 
@@ -112,7 +118,7 @@ Else
 		Else 
 			commandAfterLogin = commandAfterLogin + " /2nd_stage_dx9"
 		End If
-		RunAfterLogin "SoftGPU Install", commandAfterLogin
+		AddToStartup "SoftGPU Install", commandAfterLogin
 
 		Say "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now.",vbInformation+vbOkOnly
 		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 129 " + currentDir + "\Files\Install.inf"
