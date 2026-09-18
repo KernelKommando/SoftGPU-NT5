@@ -6,6 +6,7 @@
 '
 ' GLOBALS
 '
+On Error Resume Next
 
 title = "Unofficial SoftGPU's WineD3D Install Script"
 Set objShell = CreateObject("WScript.Shell")
@@ -92,9 +93,10 @@ If (objFS.FileExists(SYSDIR + "d3d9.dll")) Then
 	FileClear TEMP + "Install.inf"
 	FileClear TEMP + "Install.cab"
 
+	RemoveFromStartup "SoftGPU Install"
+
 	If (postResetMode = 1) Then
 		disableDialogs = 0
-		RemoveFromStartup "SoftGPU Install"
 	End If
 
 	Say "Installation completed.", vbInformation+vbOkOnly
