@@ -106,7 +106,7 @@ Else
 		directXsetup = chr(34) + currentDir + "\Files\dx9\dxsetup.exe" + chr(34) + " /silent"
 		Run directXsetup
 
-		installCommandAfterLogin = "wscript.exe " + chr(34) + thisScript + chr(34)
+		commandAfterLogin = "wscript.exe " + chr(34) + thisScript + chr(34)
 		if (silentMode = 1) Then
 			commandAfterLogin = commandAfterLogin + " /silent"
 		Else 
