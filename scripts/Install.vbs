@@ -17,7 +17,9 @@ SYSDIR = WINDIR + "\SYSTEM32\"
 TEMP = objShell.ExpandEnvironmentStrings("%TEMP%")
 TEMP = TEMP + "\"
 
+silentMode = 0
 disableDialogs = 0
+alwaysDisplayEndDialog=0
 
 '
 ' FUNCTIONS
@@ -56,6 +58,11 @@ end function
 '
 If (WScript.Arguments.Count > 0) Then
 	If (WScript.Arguments(0) = "/silent") Then
+		silentMode = 1
+		disableDialogs = 1
+	End If
+	If (WScript.Arguments(0) = "/2nd_stage_dx9") Then
+		alwaysDisplayEndDialog = 1
 		disableDialogs = 1
 	End If
 End If
@@ -81,10 +88,14 @@ If (objFS.FileExists(SYSDIR + "d3d9.dll")) Then
 	FileClear TEMP + "Install.inf"
 	FileClear TEMP + "Install.cab"
 
+	If (alwaysDisplayEndDialog = 1) Then
+		disableDialogs = 0
+	End If
+
 	Say "Installation completed.", vbInformation+vbOkOnly
 
 Else
-	If (disableDialogs = 0) Then
+	If (silentMode = 0) Then
 		dx9 = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
 	Else
 		dx9 = vbOk
@@ -94,9 +105,15 @@ Else
 
 		directXsetup = chr(34) + currentDir + "\Files\dx9\dxsetup.exe" + chr(34) + " /silent"
 		Run directXsetup
+
 		installCommandAfterLogin = "wscript.exe " + chr(34) + thisScript + chr(34)
-		commandAfterLogin = commandAfterLogin + " /silent"
+		if (silentMode = 1) Then
+			commandAfterLogin = commandAfterLogin + " /silent"
+		Else 
+			commandAfterLogin = commandAfterLogin + " /2nd_stage_dx9"
+		End If
 		RunAfterLogin "SoftGPU Install", commandAfterLogin
+
 		Say "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now.",vbInformation+vbOkOnly
 		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 129 " + currentDir + "\Files\Install.inf"
 
