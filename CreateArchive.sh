@@ -66,6 +66,22 @@ createDir() {
 }
 
 # Main
+
+echo "Checking all dependencies..."
+for dependency in sha1sum sha256sum sha512sum curl 7za unix2dos gcab
+do
+	if command -v $dependency >/dev/null 2>/dev/null; then
+		echo "$dependency is present"
+	else
+		echo ""
+		echo "$dependency is missing."
+		echo "Make sure to install '$dependency' from you package manager."
+		exit 1
+	fi
+done
+echo "All dependencies are present."
+echo "" 
+
 echo "Preparing directories and files for output"
 delDir ./output
 
