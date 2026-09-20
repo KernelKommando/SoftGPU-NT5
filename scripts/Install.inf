@@ -88,7 +88,7 @@ uninwd3d.inf,,,4
 
 
 [StartMenu]
-setup.ini,progman.groups,,"GROUP_SOFTGPU="%InstallerName%""
+setup.ini,progman.groups,,"GROUP_SOFTGPU=""%StartMenuEntry%"""
 setup.ini,GROUP_SOFTGPU,," ""Uninstall"", ""%AdvPackCommand% %windir%\system32\uninwd3d.inf,,,N"",""%11%\SHELL32.DLL"",102,,""%WINDIR%"" " 
 
 
@@ -97,7 +97,8 @@ HKLM,%UninstallKey%\%InstallerName%,"DisplayName",,"%InstallerName%"
 HKLM,%UninstallKey%\%InstallerName%,"UninstallString",,"%AdvPackCommand% %10%\system32\uninwd3d.inf,,,N"
 
 [Strings]
-InstallerName="Unofficial SoftGPU's WineD3D" 
+InstallerName="Unofficial SoftGPU's WineD3D"
+StartMenuEntry="SoftGPU's WineD3D"
 AdvPackCommand="rundll32.exe advpack.dll,LaunchINFSection "
 UninstallKey="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 

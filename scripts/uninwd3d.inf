@@ -52,7 +52,7 @@ d3d9.dll,msd3d9.dll
 ; Mesa 3D
 
 [StartMenu]
-setup.ini,progman.groups,,"GROUP_SOFTGPU=""SoftGPU's WineD3D"""
+setup.ini,progman.groups,,"GROUP_SOFTGPU=""%StartMenuEntry%"""
 setup.ini,GROUP_SOFTGPU,," ""Uninstall"",,,,,,,"
 
 [UninstallEntry]
@@ -60,7 +60,8 @@ HKLM,%UninstallKey%\%InstallerName%,"DisplayName"
 HKLM,%UninstallKey%\%InstallerName%,"UninstallString"
 
 [Strings]
-InstallerName="Unofficial SoftGPU's WineD3D" 
+InstallerName="Unofficial SoftGPU's WineD3D"
+StartMenuEntry="SoftGPU's WineD3D"
 UninstallKey="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 
 ;
