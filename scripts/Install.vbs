@@ -89,7 +89,7 @@ If (objFS.FileExists(SYSDIR + "uninwd3d.inf")) Then
 
 	proceedInstall = vbYes
 	If (disableDialogs = 0) Then
-		proceedInstall = Msgbox("Do you wish to reinstall SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
+		proceedInstall = Msgbox("Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
 	End If
 	If (proceedInstall = vbNo) Then
 		WScript.Quit
