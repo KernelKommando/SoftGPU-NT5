@@ -44,6 +44,18 @@ function Run (program)
 	objShell.Run program, 1, true
 end function
 
+function RequestReboot
+	' This makes use fo the old SETUPAPI.DLL way of handling INFs to force a reboot
+	' Basically you request the installation of an empty section in a INF file
+	' With the flags set to 1="Reboot the computer in all cases."
+	' This has the issue of trigering RunOnce before a reboot is performed and thus
+	' you have to rely the on Run registry instead, requiring to remove the entries
+	' manually once it completed execution. 
+	If (silentMode = 0) Then
+		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 1 " + currentDir + "\Files\Install.inf"	 
+	End If
+end function
+
 function AddToStartup (caption, program)
 	objShell.RegWrite "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\" + caption, program,"REG_SZ"
 end function
@@ -136,7 +148,7 @@ Else
 		AddToStartup "SoftGPU Install", commandAfterLogin
 
 		Say "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now.",vbInformation+vbOkOnly
-		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 129 " + currentDir + "\Files\Install.inf"
+		RequestReboot
 		WScript.Quit
 
 	Else

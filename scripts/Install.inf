@@ -10,7 +10,6 @@ UpdateInis = StartMenu
 
 [Reboot]
 ; Section used by Install.vbs to trigger a reboot
-Reboot=1
 
 [SourceDisksNames]
 1 = "Unofficial SoftGPU's WineD3D Software INSTALL Cabinet File",install.cab,0
