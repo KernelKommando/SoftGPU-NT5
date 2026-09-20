@@ -6,13 +6,14 @@ AdvancedINF=2.5,"You must install Internet Explorer 4 or newer"
 DelFiles = DeleteDLLCache
 RenFiles = RenameInSystem
 CopyFiles = CopyToDLLCache,CopyToSystem
+AddReg = UninstallEntry
 UpdateInis = StartMenu
 
 [Reboot]
 ; Section used by Install.vbs to trigger a reboot
 
 [SourceDisksNames]
-1 = "Unofficial SoftGPU's WineD3D Software INSTALL Cabinet File",install.cab,0
+1 = "%InstallerName% Software INSTALL Cabinet File",install.cab,0
 
 [SourceDisksFiles]
 ; Mesa 3D
@@ -87,7 +88,18 @@ uninwd3d.inf,,,4
 
 
 [StartMenu]
-setup.ini,progman.groups,,"GROUP_SOFTGPU=""SoftGPU's WineD3D"""
-setup.ini,GROUP_SOFTGPU,," ""Uninstall"", ""rundll32.exe advpack.dll,LaunchINFSection %windir%\system32\uninwd3d.inf,,,N"",""%11%\SHELL32.DLL"",102,,""%WINDIR%"" " 
+setup.ini,progman.groups,,"GROUP_SOFTGPU="%InstallerName%""
+setup.ini,GROUP_SOFTGPU,," ""Uninstall"", ""%AdvPackCommand% %windir%\system32\uninwd3d.inf,,,N"",""%11%\SHELL32.DLL"",102,,""%WINDIR%"" " 
+
+
+[UninstallEntry]
+HKLM,%UninstallKey%\%InstallerName%,"DisplayName",,"%InstallerName%"
+HKLM,%UninstallKey%\%InstallerName%,"UninstallString",,"%AdvPackCommand% %10%\system32\uninwd3d.inf,,,N"
+
+[Strings]
+InstallerName="Unofficial SoftGPU's WineD3D" 
+AdvPackCommand="rundll32.exe advpack.dll,LaunchINFSection "
+UninstallKey="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+
 
 ;
