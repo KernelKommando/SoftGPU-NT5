@@ -96,6 +96,7 @@ delDir ./output
 	cp ./scripts/Install.inf ./output/Files
 	cp ./scripts/Install.vbs ./output
 	cp ./scripts/uninwd3d.inf ./originalFiles/cabfiles
+	cp ./scripts/autorun.inf ./output
 
 echo " "
 echo "Prepare originalFiles directory"
