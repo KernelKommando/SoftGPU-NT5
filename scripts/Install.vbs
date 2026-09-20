@@ -72,10 +72,26 @@ If (WScript.Arguments.Count > 0) Then
 	End If
 End If
 
-If (disableDialogs = 0) Then
-	proceedInstall = Msgbox("Do you wish to install SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
+' Check for the unistall INF script
+If (objFS.FileExists(SYSDIR + "uninwd3d.inf")) Then
+
+	proceedInstall = vbYes
+	If (disableDialogs = 0) Then
+		proceedInstall = Msgbox("Do you wish to reinstall SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
+	End If
 	If (proceedInstall = vbNo) Then
 		WScript.Quit
+	End If
+	
+	reinstallScript = "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + SYSDIR + "uninwd3d.inf" + chr(34) + ",,,"
+	Run reinstallScript
+
+Else
+	If (disableDialogs = 0) Then
+		proceedInstall = Msgbox("Do you wish to install SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
+		If (proceedInstall = vbNo) Then
+			WScript.Quit
+		End If
 	End If
 End If
 
@@ -99,8 +115,6 @@ If (objFS.FileExists(SYSDIR + "d3d9.dll")) Then
 		disableDialogs = 0
 	End If
 
-	Say "Installation completed.", vbInformation+vbOkOnly
-
 Else
 	If (silentMode = 0) Then
 		dx9 = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
@@ -123,9 +137,13 @@ Else
 
 		Say "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now.",vbInformation+vbOkOnly
 		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 129 " + currentDir + "\Files\Install.inf"
+		WScript.Quit
 
 	Else
 		Say "SoftGPU was not installed",vbOkOnly
 	End If
 End If
+
+Say "Installation completed.", vbInformation+vbOkOnly
+
 

@@ -7,12 +7,6 @@ BeginPrompt = FirstDialog
 DelFiles = DeleteDLLCache, DelNewerFiles
 RenFiles = RenameInSystem
 UpdateInis = StartMenu
-EndPrompt= LastDialog
-
-[FirstDialog]
-Title = "Unofficial SoftGPU's WineD3D Install Script"
-ButtonType = YESNO
-Prompt = "Do you wish to remove SoftGPU's WineD3D Software from your system?"
 
 [LastDialog]
 Prompt = "Done."
