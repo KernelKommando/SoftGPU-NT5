@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename=Unofficial_SoftGPU_WineD3D_W2K
+filename=SoftGPU_W2K-XP32
 isoVolume=SOFTGPU_NT5
 internalVersion=v1
 date=_$(date +%Y-%m-%d_%H-%M)
