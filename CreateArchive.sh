@@ -134,14 +134,17 @@ gcab -c ../../output/Files/install.cab *.*
 cd ..
 cd ..
 
-echo ""
+echo " "
 echo "Creating archives for release..."
 echo $filename$release$date$extiso
+cd output
+7za a ../$filename$release$date$extzip *
+cd ..
 mkisofs -input-charset "cp437" -iso-level 1 -joliet -rational-rock -V $isoVolume -output ./output/$filename$release$date$extiso ./output
+mv ./$filename$release$date$extzip ./output
 echo "Done."
 
 echo " "
-echo "Done."
+echo "Completed, check the output directory."
 
 
-/
