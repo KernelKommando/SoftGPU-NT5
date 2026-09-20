@@ -1,9 +1,11 @@
 #!/bin/bash
 
 filename=Unofficial_SoftGPU_WineD3D_W2K
+isoVolume=SOFTGPU_NT5
 internalVersion=v1
 date=_$(date +%Y-%m-%d_%H-%M)
 extzip=.zip
+extiso=.iso
 separator=_
 
 # $1 = filename
@@ -129,8 +131,17 @@ sha256sum *.dll >> 0_checksums.txt
 sha512sum *.dll >> 0_checksums.txt
 unix2dos 0_checksums.txt
 gcab -c ../../output/Files/install.cab *.*
+cd ..
+cd ..
+
+echo ""
+echo "Creating archives for release..."
+echo $filename$release$date$extiso
+mkisofs -input-charset "cp437" -iso-level 1 -joliet -rational-rock -V $isoVolume -output ./output/$filename$release$date$extiso ./output
+echo "Done."
 
 echo " "
 echo "Done."
 
 
+/
