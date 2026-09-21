@@ -18,15 +18,15 @@ SYSDIR = WINDIR + "\SYSTEM32\"
 TEMP = objShell.ExpandEnvironmentStrings("%TEMP%")
 TEMP = TEMP + "\"
 
-silentMode = 0
-disableDialogs = 0
-postResetMode=0
+silentMode = False
+enableDialogs = True
+postResetMode = False
 
 '
 ' FUNCTIONS
 '
 
-function FileCopy (sourceDir, file, endDir)
+Function FileCopy (sourceDir, file, endDir)
 
 	endFile = endDir + file
 	If objFS.FileExists(endFile) Then
@@ -34,59 +34,59 @@ function FileCopy (sourceDir, file, endDir)
 	End If
 	objFS.CopyFile sourceDir + file,endDir,true
 
-end function
+End Function
 
-function FileClear (file)
+Function FileClear (file)
 	objFS.DeleteFile file,true
-end function
+End Function
 
-function Run (program)
+Function Run (program)
 	objShell.Run program, 1, true
-end function
+End Function
 
-function AddToStartup (caption, program)
+Function AddToStartup (caption, program)
 	objShell.RegWrite "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\" + caption, program,"REG_SZ"
-end function
+End Function
 
-function RemoveFromStartup (caption)
+Function RemoveFromStartup (caption)
 	objShell.RegDelete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\" + caption
-end function
+End Function
 
-function Say (message, vbType)
-	If (disableDialogs = 0) Then
+Function Say (message, vbType)
+	If (enableDialogs) Then
 		msg = Msgbox(message,vbType,title)
 	End If
-end function
+End Function
 
 Function CancelAndQuit 
 	Say "SoftGPU was not installed",vbInformation+vbOkOnly
 	WScript.Quit
 End Function
 
-function RebootAndQuit
+Function RebootAndQuit
 	' This makes use fo the old SETUPAPI.DLL way of handling INFs to force a reboot
 	' Basically you request the installation of an empty section in a INF file
 	' With the flags set to 1="Reboot the computer in all cases."
 	' This has the issue of trigering RunOnce before a reboot is performed and thus
 	' you have to rely the on Run registry instead, requiring to remove the entries
 	' manually once it completed execution. 
-	If (silentMode = 0) Then
+	If (NOT(silentMode)) Then
 		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 1 " + currentDir + "\Files\Install.inf"	 
 	End If
 	WScript.Quit
-end function
+End Function
 
 '
 ' MAIN
 '
 If (WScript.Arguments.Count > 0) Then
 	If (WScript.Arguments(0) = "/silent") Then
-		silentMode = 1
-		disableDialogs = 1
+		silentMode = True
+		enableDialogs = False
 	End If
 	If (WScript.Arguments(0) = "/2nd_stage_dx9") Then
-		postResetMode = 1
-		disableDialogs = 1
+		postResetMode = True
+		enableDialogs = False
 	End If
 End If
 
@@ -94,7 +94,7 @@ softGPUinstalled = objFS.FileExists(SYSDIR + "uninwd3d.inf")
 If (softGPUinstalled) Then
 
 	proceedInstall = vbYes
-	If (disableDialogs = 0) Then
+	If (enableDialogs) Then
 		proceedInstall = Msgbox("Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
 	End If
 	If (proceedInstall = vbNo) Then
@@ -105,7 +105,7 @@ If (softGPUinstalled) Then
 	Run uninstallScript
 
 Else
-	If (disableDialogs = 0) Then
+	If (enableDialogs) Then
 		proceedInstall = Msgbox("Do you wish to install SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
 		If (proceedInstall = vbNo) Then
 			CancelAndQuit
@@ -117,11 +117,11 @@ directX9installed = (objFS.FileExists(SYSDIR + "d3d9.dll"))
 directX9isOld = ((directX9installed) AND (NOT(objFS.FileExists(SYSDIR + "d3dx9_42.dll"))))
 
 installDirectX9 = False
-If (NOT directX9installed) Then
+If (NOT (directX9installed)) Then
 
-	If (silentMode = 0) Then
-		dx9 = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
-		If (dx9 = vbOk) Then
+	If (enableDialogs) Then
+		msg = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
+		If (msg = vbOk) Then
 			installDirectX9 = True
 		Else
 			CancelAndQuit
@@ -134,9 +134,9 @@ End If
 
 If (directX9isOld) Then
 
-	If (silentMode = 0) Then
-		dx9 = Msgbox("Do you want to update your current version of DirectX9?",vbQuestion+vbOkCancel,title)
-		If (dx9 = vbOk) Then
+	If (enableDialogs) Then
+		msg = Msgbox("Do you want to update your current version of DirectX9?",vbQuestion+vbOkCancel,title)
+		If (msg = vbOk) Then
 			installDirectX9 = True
 		Else
 			installDirectX9 = False
@@ -153,7 +153,7 @@ If (installDirectX9) Then
 	Run directXsetup
 
 	commandAfterLogin = "wscript.exe " + chr(34) + thisScript + chr(34)
-	if (silentMode = 1) Then
+	if (silentMode) Then
 		commandAfterLogin = commandAfterLogin + " /silent"
 	Else 
 		commandAfterLogin = commandAfterLogin + " /2nd_stage_dx9"
@@ -178,8 +178,8 @@ FileClear TEMP + "Install.cab"
 
 RemoveFromStartup "SoftGPU Install"
 
-If (postResetMode = 1) Then
-	disableDialogs = 0
+If (postResetMode) Then
+	enableDialogs = True
 End If
 
 Say "Installation completed.", vbInformation+vbOkOnly
