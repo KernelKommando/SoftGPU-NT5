@@ -90,75 +90,96 @@ If (WScript.Arguments.Count > 0) Then
 	End If
 End If
 
-' Check for the unistall INF script
-If (objFS.FileExists(SYSDIR + "uninwd3d.inf")) Then
+softGPUinstalled = objFS.FileExists(SYSDIR + "uninwd3d.inf")
+If (softGPUinstalled) Then
 
 	proceedInstall = vbYes
 	If (disableDialogs = 0) Then
 		proceedInstall = Msgbox("Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
 	End If
 	If (proceedInstall = vbNo) Then
-		WScript.Quit
+		CancelAndQuit
 	End If
 	
-	reinstallScript = "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + SYSDIR + "uninwd3d.inf" + chr(34) + ",,,"
-	Run reinstallScript
+	uninstallScript = "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + SYSDIR + "uninwd3d.inf" + chr(34) + ",,,"
+	Run uninstallScript
 
 Else
 	If (disableDialogs = 0) Then
 		proceedInstall = Msgbox("Do you wish to install SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
 		If (proceedInstall = vbNo) Then
-			WScript.Quit
+			CancelAndQuit
 		End If
 	End If
 End If
 
-' Check for DirectX9
-If (objFS.FileExists(SYSDIR + "d3d9.dll")) Then 
+directX9installed = (objFS.FileExists(SYSDIR + "d3d9.dll"))
+directX9isOld = ((directX9installed) AND (NOT(objFS.FileExists(SYSDIR + "d3dx9_42.dll"))))
 
-	' Copy the Installer files to Temp, so that we can avoid 
-	' executing the INF script from a path with weird characters
-	FileCopy currentDir + "\Files\","Install.inf",TEMP 
-	FileCopy currentDir + "\Files\","Install.cab",TEMP
+installDirectX9 = False
+If (NOT directX9installed) Then
 
-	installScript = "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + TEMP + "Install.inf" + chr(34) + ",,,"
-	Run installScript
-
-	FileClear TEMP + "Install.inf"
-	FileClear TEMP + "Install.cab"
-
-	RemoveFromStartup "SoftGPU Install"
-
-	If (postResetMode = 1) Then
-		disableDialogs = 0
-	End If
-
-Else
 	If (silentMode = 0) Then
 		dx9 = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
-	Else
-		dx9 = vbOk
-	End If
-
-	If (dx9 = vbOk) Then
-
-		directXsetup = chr(34) + currentDir + "\Files\dx9\dxsetup.exe" + chr(34) + " /silent"
-		Run directXsetup
-
-		commandAfterLogin = "wscript.exe " + chr(34) + thisScript + chr(34)
-		if (silentMode = 1) Then
-			commandAfterLogin = commandAfterLogin + " /silent"
-		Else 
-			commandAfterLogin = commandAfterLogin + " /2nd_stage_dx9"
+		If (dx9 = vbOk) Then
+			installDirectX9 = True
+		Else
+			CancelAndQuit
 		End If
-		AddToStartup "SoftGPU Install", commandAfterLogin
-
-		Say "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now.",vbInformation+vbOkOnly
-		RebootAndQuit
-
 	Else
-		CancelAndQuit
+		installDirectX9 = True
 	End If
+
+End If
+
+If (directX9isOld) Then
+
+	If (silentMode = 0) Then
+		dx9 = Msgbox("Do you want to update your current version of DirectX9?",vbQuestion+vbOkCancel,title)
+		If (dx9 = vbOk) Then
+			installDirectX9 = True
+		Else
+			installDirectX9 = False
+		End If
+	Else
+		installDirectX9 = False
+	End If
+
+End If
+
+If (installDirectX9) Then
+
+	directXsetup = chr(34) + currentDir + "\Files\dx9\dxsetup.exe" + chr(34) + " /silent"
+	Run directXsetup
+
+	commandAfterLogin = "wscript.exe " + chr(34) + thisScript + chr(34)
+	if (silentMode = 1) Then
+		commandAfterLogin = commandAfterLogin + " /silent"
+	Else 
+		commandAfterLogin = commandAfterLogin + " /2nd_stage_dx9"
+	End If
+	AddToStartup "SoftGPU Install", commandAfterLogin
+
+	Say "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now.",vbInformation+vbOkOnly
+	RebootAndQuit
+
+End If
+
+' Copy the Installer files to Temp, so that we can avoid 
+' executing the INF script from a path with weird characters
+FileCopy currentDir + "\Files\","Install.inf",TEMP 
+FileCopy currentDir + "\Files\","Install.cab",TEMP
+
+installScript = "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + TEMP + "Install.inf" + chr(34) + ",,,"
+Run installScript
+
+FileClear TEMP + "Install.inf"
+FileClear TEMP + "Install.cab"
+
+RemoveFromStartup "SoftGPU Install"
+
+If (postResetMode = 1) Then
+	disableDialogs = 0
 End If
 
 Say "Installation completed.", vbInformation+vbOkOnly
