@@ -6,6 +6,7 @@
 '
 ' GLOBALS
 '
+
 On Error Resume Next
 Set objShell = CreateObject("WScript.Shell")
 Set objFS = CreateObject("Scripting.FileSystemObject")
@@ -29,7 +30,7 @@ dlgComplete = "Installation completed."
 dlgCancel = "SoftGPU was not installed."
 dlgFirstInstall = "Do you wish to install SoftGPU's WineD3D Software Renderer?"
 dlgAlreadyInstalled = "Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?"
-dlgFileProtection = "This installer will replace important system files. After installation completes, you must dismiss the Windows" + " File Protection dialog by pressing " + chr(34) + "Cancel" + chr(34) + " and then " + chr(34) + "Yes" + chr(34) 
+dlgFileProtection = "This installer will replace important system files. After installation completes, you must dismiss the Windows File Protection dialog by pressing " + chr(34) + "Cancel" + chr(34) + " and then " + chr(34) + "Yes" + chr(34) 
 dlgDirectX9Required = "SoftGPU requires DirectX9, do you want to install it now?"
 dlgDirectX9IsOld = "Do you want to update your current version of DirectX9?"
 dlgDirectX9Complete = "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now."
@@ -91,6 +92,7 @@ End Function
 '
 ' MAIN
 '
+
 If (WScript.Arguments.Count > 0) Then
 	If (WScript.Arguments(0) = "/silent") Then
 		silentMode = True
