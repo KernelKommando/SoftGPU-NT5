@@ -153,7 +153,7 @@ If (installDirectX9) Then
 	Run directXsetup
 
 	commandAfterLogin = "wscript.exe " + chr(34) + thisScript + chr(34)
-	if (silentMode) Then
+	If (silentMode) Then
 		commandAfterLogin = commandAfterLogin + " /silent"
 	Else 
 		commandAfterLogin = commandAfterLogin + " /2nd_stage_dx9"
