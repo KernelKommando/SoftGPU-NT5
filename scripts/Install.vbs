@@ -7,8 +7,6 @@
 ' GLOBALS
 '
 On Error Resume Next
-
-title = "Unofficial SoftGPU's WineD3D Install Script"
 Set objShell = CreateObject("WScript.Shell")
 Set objFS = CreateObject("Scripting.FileSystemObject")
 thisScript = WScript.ScriptFullName
@@ -21,6 +19,20 @@ TEMP = TEMP + "\"
 silentMode = False
 enableDialogs = True
 postResetMode = False
+
+' 
+' DIALOG STRINGS
+'
+
+title = "Unofficial SoftGPU's WineD3D Install Script"
+dlgComplete = "Installation completed."
+dlgCancel = "SoftGPU was not installed."
+dlgFirstInstall = "Do you wish to install SoftGPU's WineD3D Software Renderer?"
+dlgAlreadyInstalled = "Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?"
+dlgFileProtection = "This installer will replace important system files. After installation completes, you must dismiss the Windows" + " File Protection dialog by pressing " + chr(34) + "Cancel" + chr(34) + " and then " + chr(34) + "Yes" + chr(34) 
+dlgDirectX9Required = "SoftGPU requires DirectX9, do you want to install it now?"
+dlgDirectX9IsOld = "Do you want to update your current version of DirectX9?"
+dlgDirectX9Complete = "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now."
 
 '
 ' FUNCTIONS
@@ -59,7 +71,7 @@ Function Say (message, vbType)
 End Function
 
 Function CancelAndQuit 
-	Say "SoftGPU was not installed",vbInformation+vbOkOnly
+	Say dlgCancel,vbInformation+vbOkOnly
 	WScript.Quit
 End Function
 
@@ -95,7 +107,7 @@ If (softGPUinstalled) Then
 
 	proceedInstall = vbYes
 	If (enableDialogs) Then
-		proceedInstall = Msgbox("Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
+		proceedInstall = Msgbox(dlgAlreadyInstalled,vbQuestion+vbYesNo,title) 
 	End If
 	If (proceedInstall = vbNo) Then
 		CancelAndQuit
@@ -106,10 +118,11 @@ If (softGPUinstalled) Then
 
 Else
 	If (enableDialogs) Then
-		proceedInstall = Msgbox("Do you wish to install SoftGPU's WineD3D Software Renderer?",vbQuestion+vbYesNo,title) 
+		proceedInstall = Msgbox(dlgFirstInstall,vbQuestion+vbYesNo,title) 
 		If (proceedInstall = vbNo) Then
 			CancelAndQuit
 		End If
+		proceedInstall = Msgbox(dlgFileProtection, vbInformation+vbOkOnly, title)
 	End If
 End If
 
@@ -120,7 +133,7 @@ installDirectX9 = False
 If (NOT (directX9installed)) Then
 
 	If (enableDialogs) Then
-		msg = Msgbox("SoftGPU requires DirectX9, do you want to install it now?",vbQuestion+vbOkCancel,title)
+		msg = Msgbox(dlgDirectX9Required,vbQuestion+vbOkCancel,title)
 		If (msg = vbOk) Then
 			installDirectX9 = True
 		Else
@@ -135,7 +148,7 @@ End If
 If (directX9isOld) Then
 
 	If (enableDialogs) Then
-		msg = Msgbox("Do you want to update your current version of DirectX9?",vbQuestion+vbOkCancel,title)
+		msg = Msgbox(dlgDirectX9IsOld,vbQuestion+vbOkCancel,title)
 		If (msg = vbOk) Then
 			installDirectX9 = True
 		Else
@@ -160,7 +173,7 @@ If (installDirectX9) Then
 	End If
 	AddToStartup "SoftGPU Install", commandAfterLogin
 
-	Say "DirectX9 installed. System will reboot now in order to complete the SoftGPU install. Press OK to reboot now.",vbInformation+vbOkOnly
+	Say dlgDirectX9Complete,vbInformation+vbOkOnly
 	RebootAndQuit
 
 End If
@@ -182,6 +195,6 @@ If (postResetMode) Then
 	enableDialogs = True
 End If
 
-Say "Installation completed.", vbInformation+vbOkOnly
+Say dlgComplete, vbInformation+vbOkOnly
 
 
