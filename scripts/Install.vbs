@@ -28,6 +28,7 @@ postResetMode = False
 title = "Unofficial SoftGPU's WineD3D Install Script"
 dlgComplete = "Installation completed."
 dlgCancel = "SoftGPU was not installed."
+dlgIncompatible = "This version of Windows is not supported."
 dlgFirstInstall = "Do you wish to install SoftGPU's WineD3D Software Renderer?"
 dlgAlreadyInstalled = "Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?"
 dlgFileProtection = "This installer will replace important system files. After installation completes, you must dismiss the Windows File Protection dialog by pressing " + chr(34) + "Cancel" + chr(34) + " and then " + chr(34) + "Yes" + chr(34) 
@@ -102,6 +103,19 @@ If (WScript.Arguments.Count > 0) Then
 		postResetMode = True
 		enableDialogs = False
 	End If
+End If
+
+supportedWindowsVersions = Array("5.0","5.1","5.2")
+currentVersion = objShell.RegRead("HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\CurrentVersion")
+windowsNotSupported = True
+For Each item in supportedWindowsVersions
+	If (currentVersion = item) Then
+		windowsNotSupported = False
+	End If
+Next
+If (windowsNotSupported) Then
+	Say dlgIncompatible,vbCritical+vbOkOnly
+	CancelAndQuit
 End If
 
 softGPUinstalled = objFS.FileExists(SYSDIR + "uninwd3d.inf")
