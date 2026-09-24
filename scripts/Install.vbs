@@ -29,6 +29,7 @@ title = "Unofficial SoftGPU's WineD3D Install Script"
 dlgComplete = "Installation completed."
 dlgCancel = "SoftGPU was not installed."
 dlgIncompatible = "This version of Windows is not supported."
+dlg64Arch = "The 64-Bit Windows is not supported."
 dlgFirstInstall = "Do you wish to install SoftGPU's WineD3D Software Renderer?"
 dlgAlreadyInstalled = "Do you wish to update/reinstall SoftGPU's WineD3D Software Renderer?"
 dlgFileProtection = "This installer will replace important system files. After installation completes, you must dismiss the Windows File Protection dialog by pressing " + chr(34) + "Cancel" + chr(34) + " and then " + chr(34) + "Yes" + chr(34) 
@@ -115,6 +116,11 @@ For Each item in supportedWindowsVersions
 Next
 If (windowsNotSupported) Then
 	Say dlgIncompatible,vbCritical+vbOkOnly
+	CancelAndQuit
+End If
+windowsIs64Bit = objFS.FileExists(WINDIR + "\SysWOW64\Kernel32.dll")
+If (windowsIs64Bit) Then
+	Say dlg64Arch, vbCritical+vbOkOnly
 	CancelAndQuit
 End If
 
