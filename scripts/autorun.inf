@@ -1,6 +1,6 @@
 [autorun]
 open=wscript.exe Install.vbs
-icon=dxdiag.exe,0
+icon=shell32.dll,46
 label=SoftGPU for Windows 2000-XP32
 
 

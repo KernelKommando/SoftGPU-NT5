@@ -164,8 +164,8 @@ End If
 If (directX9isOld) Then
 
 	If (enableDialogs) Then
-		msg = Msgbox(dlgDirectX9IsOld,vbQuestion+vbOkCancel,title)
-		If (msg = vbOk) Then
+		msg = Msgbox(dlgDirectX9IsOld,vbQuestion+vbYesNo,title)
+		If (msg = vbYes) Then
 			installDirectX9 = True
 		Else
 			installDirectX9 = False
