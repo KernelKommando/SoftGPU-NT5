@@ -149,8 +149,8 @@ installDirectX9 = False
 If (NOT (directX9installed)) Then
 
 	If (enableDialogs) Then
-		msg = Msgbox(dlgDirectX9Required,vbQuestion+vbOkCancel,title)
-		If (msg = vbOk) Then
+		msg = Msgbox(dlgDirectX9Required,vbQuestion+vbYesNo,title)
+		If (msg = vbYes) Then
 			installDirectX9 = True
 		Else
 			CancelAndQuit
