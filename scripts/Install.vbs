@@ -149,8 +149,6 @@ Else
 End If
 
 directX9installed = (objFS.FileExists(SYSDIR + "d3d9.dll"))
-directX9isOld = ((directX9installed) AND (NOT(objFS.FileExists(SYSDIR + "d3dx9_42.dll"))))
-
 installDirectX9 = False
 If (NOT (directX9installed)) Then
 
@@ -167,6 +165,14 @@ If (NOT (directX9installed)) Then
 
 End If
 
+' Doesn't actually check for older DirectX, only if all files are present
+directX9Extensions = Array("d3dx9_24.dll","d3dx9_25.dll","d3dx9_26.dll","d3dx9_27.dll","d3dx9_28.dll","d3dx9_29.dll","d3dx9_30.dll","d3dx9_31.dll","d3dx9_32.dll","d3dx9_33.dll","d3dx9_34.dll","d3dx9_35.dll","d3dx9_36.dll","d3dx9_37.dll","d3dx9_38.dll","d3dx9_39.dll","d3dx9_40.dll","d3dx9_41.dll","d3dx9_42.dll")
+directX9isOld = False
+For Each item in directX9Extensions
+	If (NOT(objFS.FileExists(SYSDIR + item))) Then
+		directX9isOld = True
+	End If
+Next
 If (directX9isOld) Then
 
 	If (enableDialogs) Then
