@@ -109,11 +109,11 @@ cd originalFiles
 	wine9x-1.7.55.45-sse3.zip \
 	8d95cfb2666c798295e3715f3fe24e9837083c3832ced6f92b752016ceb78dcb \ 
 	# JHRobotics' Mesa9x
-	# Wayback Machine mirror of https://github.com/JHRobotics/mesa9x/releases/download/v23.1.9.138/mesa9x-23.1.9.138-driver-win98.zip
+	# Wayback Machine mirror of https://github.com/JHRobotics/mesa9x/releases/download/v23.1.9.138/mesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip
 	getFile \
-	"https://web.archive.org/web/20260916160010if_/https://release-assets.githubusercontent.com/github-production-release-asset/625939931/15a1f4c4-b24e-4a3f-b3fa-f4362ac5f0d4?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-16T16%3A58%3A54Z&rscd=attachment%3B+filename%3Dmesa9x-23.1.9.138-driver-win98.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-16T15%3A58%3A36Z&ske=2026-09-16T16%3A58%3A54Z&sks=b&skv=2018-11-09&sig=FBZItvsHSY0YODnVCBrp%2FCsmn4DLn63%2FtSM7B162KWg%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4OTU3NjIxMCwibmJmIjoxNzg5NTc0NDEwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.0U8OaKJ_xgNwcH6umKeFT5Y1ROtOpS_W0OOiApxlVvk&response-content-disposition=attachment%3B%20filename%3Dmesa9x-23.1.9.138-driver-win98.zip&response-content-type=application%2Foctet-stream" \
-	mesa9x-23.1.9.138-driver-win98.zip \
-	04e138f497792266fbb8ec864a4e906523aee3768e28e16276d3abb58644d04d \
+	"https://web.archive.org/web/20260926153801if_/https://release-assets.githubusercontent.com/github-production-release-asset/625939931/1855aff6-8ca5-4986-b3ca-5f47292f48db?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-26T16%3A16%3A03Z&rscd=attachment%3B+filename%3Dmesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-26T15%3A15%3A09Z&ske=2026-09-26T16%3A16%3A03Z&sks=b&skv=2018-11-09&sig=R8i0a%2BeO3kG9pf%2B9EUDMDqk4Zb8Od%2BkctkJsTCSRIEs%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MDQzODg4MCwibmJmIjoxNzkwNDM3MDgwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.JpbH-4JFr4OsteUAjIuYfAsI25LNv1H0SZ2Ub0wJ-bc&response-content-disposition=attachment%3B%20filename%3Dmesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip&response-content-type=application%2Foctet-stream" \
+	mesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip \
+	75c6f060ba3a0995ba30dd3a7b863a7445a3542c9cc604cbf8b6af6dc04dd4c1 \
 	# DirectX9 February 2010 Installer
 	getFile \
 	"https://web.archive.org/web/20120504030141if_/http://download.microsoft.com/download/E/E/1/EE17FF74-6C45-4575-9CF4-7FC2597ACD18/directx_feb2010_redist.exe" \
@@ -122,9 +122,9 @@ cd originalFiles
 
 echo "Obtaining required files building CAB file"
 
-	7za e -y mesa9x-23.1.9.138-driver-win98.zip -o./cabfiles extra/opengl32.dll 
-	7za e -y wine9x-1.7.55.45-sse3.zip -o./cabfiles -i@../scripts/wined3dFiles.txt
-	7za e -y directx_feb2010_redist.exe -o../output/Files/dx9 -i@../scripts/dx9InstallerFiles.txt
+	7za e -y mesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip -o./cabfiles -i@../scripts/files_mesa3d.txt
+	7za e -y wine9x-1.7.55.45-sse3.zip -o./cabfiles -i@../scripts/files_wined3d.txt
+	7za e -y directx_feb2010_redist.exe -o../output/Files/dx9 -i@../scripts/files_dx9Installer.txt
 
 cd cabfiles
 sha1sum *.dll > 0_checksums.txt
