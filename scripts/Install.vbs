@@ -25,7 +25,7 @@ postResetMode = False
 ' DIALOG STRINGS
 '
 
-title = "Unofficial SoftGPU's WineD3D Install Script"
+title = "Unofficial SoftGPU for Windows XP/2000"
 dlgComplete = "Installation completed."
 dlgCancel = "SoftGPU was not installed."
 dlgIncompatible = "This version of Windows is not supported."

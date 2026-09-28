@@ -1,12 +1,20 @@
 #!/bin/bash
 
-filename=SoftGPU_W2K-XP32
+#
+# GLOBALS
+#
+
+filename=SoftGPU_XP32-W2K
 isoVolume=SOFTGPU_NT5
 internalVersion=v1
 date=_$(date +%Y-%m-%d_%H-%M)
 extzip=.zip
 extiso=.iso
 separator=_
+
+#
+# FUNCTIONS
+#
 
 # $1 = filename
 # $2 = sha256 checksum
@@ -67,7 +75,9 @@ createDir() {
 	mkdir "$1" >/dev/null 2>/dev/null
 }
 
-# Main
+#
+# MAIN
+#
 
 echo "Checking all dependencies..."
 for dependency in sha1sum sha256sum sha512sum curl 7za unix2dos gcab
@@ -81,10 +91,10 @@ do
 		exit 1
 	fi
 done
-echo "All dependencies are present."
-echo "" 
+echo "Done."
 
-echo "Preparing directories and files for output"
+echo " " 
+echo "Preparing directories and files for output..."
 delDir ./output
 
 	createDir output
@@ -98,8 +108,10 @@ delDir ./output
 	cp ./scripts/uninwd3d.inf ./originalFiles/cabfiles
 	cp ./scripts/autorun.inf ./output
 
+echo "Done."
+
 echo " "
-echo "Prepare originalFiles directory"
+echo "Downloading binaries..."
 cd originalFiles
 
 	# JHRobotics' WineD3D
@@ -120,20 +132,25 @@ cd originalFiles
 	directx_feb2010_redist.exe \
 	f6d191e89a963d7cca34f169d30f49eab99c1ed3bb92da73ec43617caaa1e93f \
 
-echo "Obtaining required files building CAB file"
+echo "Done."
+
+echo " "
+echo "Obtaining required files building CAB file..."
 
 	7za e -y mesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip -o./cabfiles -i@../scripts/files_mesa3d.txt
 	7za e -y wine9x-1.7.55.45-sse3.zip -o./cabfiles -i@../scripts/files_wined3d.txt
 	7za e -y directx_feb2010_redist.exe -o../output/Files/dx9 -i@../scripts/files_dx9Installer.txt
 
-cd cabfiles
-sha1sum *.dll > 0_checksums.txt
-sha256sum *.dll >> 0_checksums.txt
-sha512sum *.dll >> 0_checksums.txt
-unix2dos 0_checksums.txt
-gcab -c ../../output/Files/install.cab *.*
-cd ..
-cd ..
+	cd cabfiles
+	sha1sum *.dll > 0_checksums.txt
+	sha256sum *.dll >> 0_checksums.txt
+	sha512sum *.dll >> 0_checksums.txt
+	unix2dos 0_checksums.txt
+	gcab -c ../../output/Files/install.cab *.*
+	cd ..
+	cd ..
+
+echo "Done."
 
 echo " "
 echo "Creating archives for release..."

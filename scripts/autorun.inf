@@ -1,5 +1,5 @@
 [autorun]
 open=wscript.exe Install.vbs
-label=SoftGPU for Windows 2000-XP32
+label=SoftGPU for Windows XP-2000
 
 

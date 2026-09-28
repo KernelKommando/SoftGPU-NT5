@@ -97,8 +97,8 @@ HKLM,%UninstallKey%\%InstallerName%,"DisplayName",,"%InstallerName%"
 HKLM,%UninstallKey%\%InstallerName%,"UninstallString",,"%AdvPackCommand% %10%\system32\uninwd3d.inf,,,N"
 
 [Strings]
-InstallerName="Unofficial SoftGPU's WineD3D"
-StartMenuEntry="SoftGPU's WineD3D"
+InstallerName="Unofficial SoftGPU for Windows XP/2000"
+StartMenuEntry="SoftGPU"
 AdvPackCommand="rundll32.exe advpack.dll,LaunchINFSection "
 UninstallKey="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 
