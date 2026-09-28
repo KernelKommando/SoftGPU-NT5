@@ -173,7 +173,7 @@ For Each item in directX9Extensions
 		directX9isOld = True
 	End If
 Next
-If (directX9isOld) Then
+If ((directX9isOld)AND(directX9installed)) Then
 
 	If (enableDialogs) Then
 		msg = Msgbox(dlgDirectX9IsOld,vbQuestion+vbYesNo,title)
