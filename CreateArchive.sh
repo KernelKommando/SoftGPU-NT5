@@ -154,12 +154,12 @@ echo "Done."
 
 echo " "
 echo "Creating archives for release..."
-echo $filename$release$date$extiso
-cd output
-7za a ../$filename$release$date$extzip *
-cd ..
-mkisofs -input-charset "cp437" -iso-level 1 -joliet -rational-rock -V $isoVolume -output ./output/$filename$release$date$extiso ./output
-mv ./$filename$release$date$extzip ./output
+	echo $filename$release$date$extiso
+	cd output
+	7za a ../$filename$release$date$extzip *
+	cd ..
+	mkisofs -input-charset "cp437" -iso-level 1 -joliet -rational-rock -V $isoVolume -output ./output/$filename$release$date$extiso ./output
+	mv ./$filename$release$date$extzip ./output
 echo "Done."
 
 echo " "
