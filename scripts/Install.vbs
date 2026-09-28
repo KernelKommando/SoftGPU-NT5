@@ -79,14 +79,11 @@ Function CancelAndQuit
 End Function
 
 Function RebootAndQuit
-	' This makes use fo the old SETUPAPI.DLL way of handling INFs to force a reboot
-	' Basically you request the installation of an empty section in a INF file
-	' With the flags set to 1="Reboot the computer in all cases."
-	' This has the issue of trigering RunOnce before a reboot is performed and thus
-	' you have to rely the on Run registry instead, requiring to remove the entries
-	' manually once it completed execution. 
 	If (NOT(silentMode)) Then
-		Run "rundll32.exe setupapi.dll,InstallHinfSection Reboot 1 " + currentDir + "\Files\Install.inf"	 
+		Set WMIShutdown = GetObject("winmgmts:{impersonationlevel=impersonate,(shutdown)}").Execquery("Select * From win32_operatingsystem")
+		For Each item In WMIShutdown
+			item.win32shutdown(2)
+		Next
 	End If
 	WScript.Quit
 End Function
