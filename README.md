@@ -10,7 +10,7 @@ This is all JHRobotic's work on SoftGPU for Windows 9x, this silly installer scr
 ## Current Issues
  - No support for 64-Bit Windows (this might require rebuilding the DLLs)
  - All Windows OpenGL screensavers are broken :(
- - DirectX Diagnostic Tool crashes after Direct3D 7 test. Despite this, applications that rely on Direct3D 8/9 do work.
+ - DirectX Diagnostic Tool crashes after Direct3D 7 test. You can work around this by pressing Cancel once the DirectX7 Diagnostic Tool Dialog shows up. Despite this, applications that rely on Direct3D 8/9 do work.
  - No true 3D acceleration on VirtualBox, just slow software rendering.
 
 ## Requirements
