@@ -1,7 +1,7 @@
 # SoftGPU Installer for Windows XP/2000
 A very simple installation script for the SoftGPU software renderer, for use in Windows 2000, Windows XP 32-Bit and Windows Server 2003 32-Bit.
 
-It's very buggy but it does work :)
+This is mostly just an experiment and it's also very buggy, but it DOES work :)
 
 This is all JHRobotic's work on SoftGPU for Windows 9x, this silly installer script was all I did. The binaries are pulled from these repos:
  - Mesa3D for 9x: https://github.com/JHRobotics/mesa9x
@@ -15,7 +15,7 @@ This is all JHRobotic's work on SoftGPU for Windows 9x, this silly installer scr
 
 ## Requirements
  - Intel Core 2 CPU or newer
- - 16-Bit color depth or higher. On VirtualBox install the Guest Addtions or in VMWare install the correct version of VMWare Tools. If you are on real hardware with no proper video drivers you can try [Bearwindow's VBEMP Video Driver](https://archive.org/details/VBEMPNT).
+ - 16-Bit color depth or higher. On VirtualBox, install the Guest Addtions or in VMWare install the correct version of VMWare Tools. If you are on real hardware with no proper video drivers you can try [Bearwindow's VBEMP Video Driver](https://archive.org/details/VBEMPNT).
  - As much RAM as possible (512 MB minimum, the more the better)
 
 ## Building the ZIP/ISO archives
