@@ -18,7 +18,7 @@ separator=_
 
 # $1 = filename
 # $2 = sha256 checksum
-_exitOnDownloadError () {
+__exit_on_download_error () {
 	echo "Failed to download "$1", retry again"
 	echo "Or try to find the original file and place it in the originalFiles directory"
 	echo "SHA256: $2"
@@ -28,11 +28,11 @@ _exitOnDownloadError () {
 # $1 = link
 # $2 = filename
 # $3 = sha256 checksum
-_downloadFile() {
+__exit_on_download_error() {
 	echo "Download started"
 	curl "$1" -o "$2"
 	if [ ! -f "$2" ]; then 
-		_exitOnDownloadError "$2" "$3"
+		__exit_on_download_error "$2" "$3"
 	fi
 
 	if echo "$3 $2" | sha256sum -c --status -; then
@@ -41,37 +41,37 @@ _downloadFile() {
 		sleep 5
 		echo " "
 	else
-		_exitOnDownloadError "$2" "$3"
+		__exit_on_download_error "$2" "$3"
 	fi 
 }
 
 # $1 = link
 # $2 = filename
 # $3 = sha256 checksum
-getFile() {
+get_file() {
 
 	if [ -f "$2" ]; then
 		if echo "$3 $2" | sha256sum -c --status -; then
 			echo "File $2 is ready"
 		else
 			echo "File $2 does not match or is corrupt. Retrying..."
-			_downloadFile "$1" "$2" "$3"
+			__exit_on_download_error "$1" "$2" "$3"
 		fi
 	else
 		echo  "Ready to download $2"
-		_downloadFile "$1" "$2" "$3"
+		__exit_on_download_error "$1" "$2" "$3"
 	fi
 }
 
-delDir() {
+delete_dir() {
 	rm -rf "$1" >/dev/null 2>/dev/null
 }
 
-delFile() {
+delete_file() {
 	rm "$1" >/dev/null 2>/dev/null
 }
 
-createDir() {
+create_dir() {
 	mkdir "$1" >/dev/null 2>/dev/null
 }
 
@@ -95,13 +95,13 @@ echo "Done."
 
 echo " " 
 echo "Preparing directories and files for output..."
-delDir ./output
+delete_dir ./output
 
-	createDir output
-	createDir output/Files
-	createDir output/Files/dx9
-	createDir originalFiles
-	createDir originalFiles/cabfiles
+	create_dir output
+	create_dir output/Files
+	create_dir output/Files/dx9
+	create_dir originalFiles
+	create_dir originalFiles/cabfiles
 
 	cp ./scripts/Install.inf ./output/Files
 	cp ./scripts/Install.vbs ./output
@@ -116,18 +116,20 @@ cd originalFiles
 
 	# JHRobotics' WineD3D
 	# Wayback Machine mirror of https://github.com/JHRobotics/wine9x/releases/download/v1.7.55.45/wine9x-1.7.55.45-sse3.zip
-	getFile \
+	get_file \
 	"https://web.archive.org/web/20260916154542if_/https://release-assets.githubusercontent.com/github-production-release-asset/625943023/997f8b5d-f366-43d5-abfd-74c1d35a5d25?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-16T16%3A29%3A52Z&rscd=attachment%3B+filename%3Dwine9x-1.7.55.45-sse3.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-16T15%3A29%3A43Z&ske=2026-09-16T16%3A29%3A52Z&sks=b&skv=2018-11-09&sig=3akgSP7%2BVcqvZJY%2B%2BsTr2u2bGtRnRnJ0f17oC%2F67gSY%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4OTU3Mzg0MiwibmJmIjoxNzg5NTczNTQyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.AzMP4E8Bwun_9MqwLcp0jME6TXZ8ovzPnBsRtf6TCtk&response-content-disposition=attachment%3B%20filename%3Dwine9x-1.7.55.45-sse3.zip&response-content-type=application%2Foctet-stream" \
 	wine9x-1.7.55.45-sse3.zip \
 	8d95cfb2666c798295e3715f3fe24e9837083c3832ced6f92b752016ceb78dcb \ 
+
 	# JHRobotics' Mesa9x
 	# Wayback Machine mirror of https://github.com/JHRobotics/mesa9x/releases/download/v23.1.9.138/mesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip
-	getFile \
+	get_file \
 	"https://web.archive.org/web/20260926153801if_/https://release-assets.githubusercontent.com/github-production-release-asset/625939931/1855aff6-8ca5-4986-b3ca-5f47292f48db?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-26T16%3A16%3A03Z&rscd=attachment%3B+filename%3Dmesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-26T15%3A15%3A09Z&ske=2026-09-26T16%3A16%3A03Z&sks=b&skv=2018-11-09&sig=R8i0a%2BeO3kG9pf%2B9EUDMDqk4Zb8Od%2BkctkJsTCSRIEs%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MDQzODg4MCwibmJmIjoxNzkwNDM3MDgwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.JpbH-4JFr4OsteUAjIuYfAsI25LNv1H0SZ2Ub0wJ-bc&response-content-disposition=attachment%3B%20filename%3Dmesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip&response-content-type=application%2Foctet-stream" \
 	mesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip \
 	75c6f060ba3a0995ba30dd3a7b863a7445a3542c9cc604cbf8b6af6dc04dd4c1 \
-	# DirectX9 February 2010 Installer
-	getFile \
+
+	# Microsoft DirectX9 February 2010 Installer
+	get_file \
 	"https://web.archive.org/web/20120504030141if_/http://download.microsoft.com/download/E/E/1/EE17FF74-6C45-4575-9CF4-7FC2597ACD18/directx_feb2010_redist.exe" \
 	directx_feb2010_redist.exe \
 	f6d191e89a963d7cca34f169d30f49eab99c1ed3bb92da73ec43617caaa1e93f \

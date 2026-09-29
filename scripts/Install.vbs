@@ -41,7 +41,7 @@ dlgDirectX9Complete = "DirectX9 installed. System will reboot now in order to co
 ' FUNCTIONS
 '
 
-Function FileCopy (sourceDir, file, endDir)
+Function CopyFile (sourceDir, file, endDir)
 
 	endFile = endDir + file
 	If objFS.FileExists(endFile) Then
@@ -51,7 +51,7 @@ Function FileCopy (sourceDir, file, endDir)
 
 End Function
 
-Function FileClear (file)
+Function DeleteFile (file)
 	objFS.DeleteFile file,true
 End Function
 
@@ -205,14 +205,14 @@ End If
 
 ' Copy the Installer files to Temp, so that we can avoid 
 ' executing the INF script from a path with weird characters
-FileCopy currentDir + "\Files\","Install.inf",TEMP 
-FileCopy currentDir + "\Files\","Install.cab",TEMP
+CopyFile currentDir + "\Files\","Install.inf",TEMP 
+CopyFile currentDir + "\Files\","Install.cab",TEMP
 
 installScript = "rundll32.exe advpack.dll,LaunchINFSection " + chr(34) + TEMP + "Install.inf" + chr(34) + ",,,"
 Run installScript
 
-FileClear TEMP + "Install.inf"
-FileClear TEMP + "Install.cab"
+DeleteFile TEMP + "Install.inf"
+DeleteFile TEMP + "Install.cab"
 
 RemoveFromStartup "SoftGPU Install"
 
