@@ -114,6 +114,13 @@ echo " "
 echo "Downloading binaries..."
 cd originalFiles
 
+	# JHRobotics' VMDisp9x
+	# Wayback Machine mirror of https://github.com/JHRobotics/vmdisp9x/releases/download/v1.2025.0.119/vmdisp9x-1.2025.0.119b-driver-2d.zip
+	get_file \
+	"https://web.archive.org/web/20260930034929if_/https://release-assets.githubusercontent.com/github-production-release-asset/625937216/62d09434-1a27-4389-ab22-bd31cf22ed17?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-30T04%3A36%3A04Z&rscd=attachment%3B+filename%3Dvmdisp9x-1.2025.0.119b-driver-2d.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-30T03%3A35%3A21Z&ske=2026-09-30T04%3A36%3A04Z&sks=b&skv=2018-11-09&sig=vDteA39LXE1OCh9U6UqX68Of3YHI8Oo%2Baw0JrIKBdus%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MDc0MDQ2OSwibmJmIjoxNzkwNzQwMTY5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.L_A8cCOchKAk_gd6VNSW9K2KA2u0gPG7SqymqjwCJLc&response-content-disposition=attachment%3B%20filename%3Dvmdisp9x-1.2025.0.119b-driver-2d.zip&response-content-type=application%2Foctet-stream"\
+	vmdisp9x-1.2025.0.119b-driver-2d.zip \
+	e0d698a6089347a6a619ed439c092f247392fbafac6b342f4651c1380911fb23\
+
 	# JHRobotics' WineD3D
 	# Wayback Machine mirror of https://github.com/JHRobotics/wine9x/releases/download/v1.7.55.45/wine9x-1.7.55.45-sse3.zip
 	get_file \
@@ -141,6 +148,7 @@ echo "Obtaining required files building CAB file..."
 
 	7za e -y mesa9x-23.1.9.138-opengl32-win98-llvmpipe.zip -o./cabfiles -i@../scripts/files_mesa3d.txt
 	7za e -y wine9x-1.7.55.45-sse3.zip -o./cabfiles -i@../scripts/files_wined3d.txt
+	7za e -y vmdisp9x-1.2025.0.119b-driver-2d.zip -o./cabfiles -i@../scripts/files_vmdisp9x.txt
 	7za e -y directx_feb2010_redist.exe -o../output/Files/dx9 -i@../scripts/files_dx9Installer.txt
 
 	cd cabfiles

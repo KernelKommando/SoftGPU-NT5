@@ -22,6 +22,7 @@ d3d8.dll
 d3d9.dll
 
 [DelNewerFiles]
+vmdisp9x.dll 
 wined3d.dll
 winedd.dll
 wined8.dll

@@ -4,6 +4,7 @@ A very simple installation script for the SoftGPU software renderer, for use in 
 This is mostly just an experiment and it's also very buggy, but it DOES work :)
 
 This is all JHRobotic's work on SoftGPU for Windows 9x, this silly installer script was all I did. The binaries are pulled from these repos:
+ - VMDisp9x for 9x: https://github.com/JHRobotics/vmdisp9x
  - Mesa3D for 9x: https://github.com/JHRobotics/mesa9x
  - WineD3D for 9x: https://github.com/JHRobotics/wine9x 
 

@@ -13,6 +13,9 @@ UpdateInis = StartMenu
 1 = "%InstallerName% Software INSTALL Cabinet File",install.cab,0
 
 [SourceDisksFiles]
+; SoftGPU Virtual Display driver
+vmdisp9x.dll = 1
+
 ; Mesa 3D
 opengl32.dll = 1
 
@@ -66,6 +69,9 @@ d3d9.dll,d3d9_xp.dll,,4
 
 
 [CopyToSystem]
+; SoftGPU Virtual Display driver
+vmdisp9x.dll,,,4
+
 ; Mesa 3D
 opengl32.dll,,,4
 
