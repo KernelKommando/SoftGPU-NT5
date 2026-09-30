@@ -3,27 +3,17 @@ Signature="$CHICAGO$"
 AdvancedINF=2.5,"You must install Internet Explorer 4 or newer"
 
 [DefaultInstall]
-BeginPrompt = FirstDialog
 DelFiles = DeleteDLLCache, DelNewerFiles
 RenFiles = RenameInSystem
-DelReg = UninstallEntry
+DelReg = CompatibilityEntries, UninstallEntry
 UpdateInis = StartMenu
-
-[LastDialog]
-Prompt = "Done."
 
 [SourceDisksNames]
 1 = "%InstallerName% Software INSTALL Cabinet File",install.cab,0
 
-[SourceDisksFiles]
-
-
-
 [DestinationDirs]
 DeleteDLLCache=11,dllcache
 RenameInSystem=11
-CopyToDLLCache=11,dllcache
-
 
 [DeleteDLLCache]
 opengl32.dll
@@ -48,21 +38,25 @@ ddraw.dll,ddsys.dll
 d3d8.dll,msd3d8.dll
 d3d9.dll,msd3d9.dll
 
-[CopyToDLLCache]
-; Mesa 3D
-
 [StartMenu]
 setup.ini,progman.groups,,"GROUP_SOFTGPU=""%StartMenuEntry%"""
 setup.ini,GROUP_SOFTGPU,," ""Uninstall"",,,,,,,"
 
+[CompatibilityEntries]
+HKLM,%Mesa3D%
+HKLM,%DDSwitcher%
+HKLM,%D8Switcher%
+HKLM,%D9Switcher%
+
 [UninstallEntry]
-HKLM,%UninstallKey%\%InstallerName%,"DisplayName"
-HKLM,%UninstallKey%\%InstallerName%,"UninstallString"
+HKLM,%UninstallKey%\%InstallerName%
 
 [Strings]
 InstallerName="Unofficial SoftGPU for Windows XP/2000"
 StartMenuEntry="SoftGPU"
 UninstallKey="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
-
+Mesa3D="SOFTWARE\Mesa3D"
+DDSwitcher="SOFTWARE\DDSwitcher"
+D8Switcher="SOFTWARE\D8Switcher"
+D9Switcher="SOFTWARE\D9Switcher"
 ;
-

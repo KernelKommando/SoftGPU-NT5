@@ -10,7 +10,7 @@ This is all JHRobotic's work on SoftGPU for Windows 9x, this silly installer scr
 ## Current Issues
  - No support for 64-Bit Windows (this might require rebuilding the DLLs)
  - All Windows OpenGL screensavers are broken :(
- - DirectX Diagnostic Tool crashes after Direct3D 7 test. You can work around this by pressing Cancel once the DirectX7 Diagnostic Tool Dialog shows up. Despite this, applications that rely on Direct3D 8/9 do work.
+ - DirectX Diagnostic Tool works only with Direct3D 8 and 9 (The Direct3D 7 test does work with dxdiag, but Wine's ddraw.dll causes a crash after Direct3D 7 test and thus it has benn disabled for this specific application).
  - No true 3D acceleration on VirtualBox, just slow software rendering.
 
 ## Requirements
@@ -19,7 +19,6 @@ This is all JHRobotic's work on SoftGPU for Windows 9x, this silly installer scr
  - As much RAM as possible (512 MB minimum, the more the better)
 
 ## Building the ZIP/ISO archives
-
 You'll need a Linux system or WSL on Windows to run the CreateArchive.sh script. Of course you should also clone the repo with git.
 
 Then you need to ensure that the following binaries are installed in your system: **sha1sum sha256sum sha512sum curl 7za unix2dos gcab**

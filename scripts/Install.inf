@@ -6,11 +6,8 @@ AdvancedINF=2.5,"You must install Internet Explorer 4 or newer"
 DelFiles = DeleteDLLCache
 RenFiles = RenameInSystem
 CopyFiles = CopyToDLLCache,CopyToSystem
-AddReg = UninstallEntry
+AddReg = CompatibilityEntries, UninstallEntry
 UpdateInis = StartMenu
-
-[Reboot]
-; Section used by Install.vbs to trigger a reboot
 
 [SourceDisksNames]
 1 = "%InstallerName% Software INSTALL Cabinet File",install.cab,0
@@ -91,6 +88,60 @@ uninwd3d.inf,,,4
 setup.ini,progman.groups,,"GROUP_SOFTGPU=""%StartMenuEntry%"""
 setup.ini,GROUP_SOFTGPU,," ""Uninstall"", ""%AdvPackCommand% %windir%\system32\uninwd3d.inf,,,N"",""%11%\SHELL32.DLL"",102,,""%WINDIR%"" " 
 
+[CompatibilityEntries]
+; Default SoftGPU Mesa3D Entries
+HKLM,"%Mesa3D%\glquake.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\quake2.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\sin.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\Heretic2.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\glh2.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\Oni.exe","MESA_EXTENSION_MAX_YEAR",,"2001"
+HKLM,"%Mesa3D%\xtremecr.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\litecr.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\SoF.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\quake3.exe","MESA_EXTENSION_MAX_YEAR",,"2006"
+HKLM,"%Mesa3D%\wolfmp.exe","MESA_EXTENSION_MAX_YEAR",,"2006"
+HKLM,"%Mesa3D%\wolfsp.exe","MESA_EXTENSION_MAX_YEAR",,"2006"
+HKLM,"%Mesa3D%\sof2.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+HKLM,"%Mesa3D%\jk2mp.exe","MESA_EXTENSION_MAX_YEAR",,"2006"
+HKLM,"%Mesa3D%\jk2sp.exe","MESA_EXTENSION_MAX_YEAR",,"2006"
+; Addtional Mesa3D Entries
+HKLM,"%Mesa3D%\q2test.exe","MESA_EXTENSION_MAX_YEAR",,"2004"
+
+; Default SoftGPU WineDirectDraw Entries
+HKLM,%DDSwitcher%,"Oni.exe",,"system"
+HKLM,%DDSwitcher%,"hl.exe",,"system"
+HKLM,%DDSwitcher%,"diablo.exe",,"system"
+HKLM,%DDSwitcher%,"mdk95.exe",,"system"
+HKLM,%DDSwitcher%,"isle.exe",,"system"
+HKLM,%DDSwitcher%,"legoisle.exe",,"system"
+HKLM,%DDSwitcher%,"mib.exe",,"system"
+HKLM,%DDSwitcher%,"Sims.exe",,"system"
+HKLM,%DDSwitcher%,"rct.exe",,"system"
+HKLM,%DDSwitcher%,"MPLAYER.exe",,"system"
+HKLM,%DDSwitcher%,"MPLAYER2.exe",,"system"
+HKLM,%DDSwitcher%,"wmplayer.exe",,"system"
+HKLM,%DDSwitcher%,"DivX Player 2.1.exe",,"system"
+HKLM,%DDSwitcher%,"PowerDVD.exe",,"system"
+HKLM,%DDSwitcher%,"winamp.exe",,"system"
+HKLM,%DDSwitcher%,"Carm95.exe",,"system"
+HKLM,%DDSwitcher%,"HCopter.exe",,"system"
+HKLM,%DDSwitcher%,"aow.exe",,"system"
+HKLM,%DDSwitcher%,"empires.exe",,"system"
+HKLM,%DDSwitcher%,"heroes3.exe",,"system"
+HKLM,%DDSwitcher%,"lithtech.exe",,"wine"
+HKLM,%DDSwitcher%,"td6.exe",,"wine"
+; Additional WineDirectDraw Entries
+HKLM,%DDSwitcher%,"dxdiag.exe",,"system"
+
+; To be added in the future:
+; - Hitman (Glide)
+; - u9.icd (Glide)
+; - Swep1rcr.exe
+; - Quake3 (Glide)
+
+HKLM,%D8Switcher%
+HKLM,%D9Switcher%
 
 [UninstallEntry]
 HKLM,%UninstallKey%\%InstallerName%,"DisplayName",,"%InstallerName%"
@@ -101,6 +152,8 @@ InstallerName="Unofficial SoftGPU for Windows XP/2000"
 StartMenuEntry="SoftGPU"
 AdvPackCommand="rundll32.exe advpack.dll,LaunchINFSection "
 UninstallKey="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
-
-
+Mesa3D="SOFTWARE\Mesa3D"
+DDSwitcher="SOFTWARE\DDSwitcher"
+D8Switcher="SOFTWARE\D8Switcher"
+D9Switcher="SOFTWARE\D9Switcher"
 ;
