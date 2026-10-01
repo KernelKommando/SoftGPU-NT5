@@ -28,7 +28,7 @@ __exit_on_download_error () {
 # $1 = link
 # $2 = filename
 # $3 = sha256 checksum
-__exit_on_download_error() {
+__download_file() {
 	echo "Download started"
 	curl "$1" -o "$2"
 	if [ ! -f "$2" ]; then 
@@ -55,11 +55,11 @@ get_file() {
 			echo "File $2 is ready"
 		else
 			echo "File $2 does not match or is corrupt. Retrying..."
-			__exit_on_download_error "$1" "$2" "$3"
+			__download_file "$1" "$2" "$3"
 		fi
 	else
 		echo  "Ready to download $2"
-		__exit_on_download_error "$1" "$2" "$3"
+		__download_file "$1" "$2" "$3"
 	fi
 }
 
