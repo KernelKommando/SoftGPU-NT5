@@ -32,12 +32,12 @@ This is all JHRobotic's work on SoftGPU for Windows 9x, this silly installer scr
 ## Building the ZIP/ISO archives
 You'll need a Linux system or WSL on Windows to run the `CreateArchive.sh` script. Of course you should also clone the repo with git.
 
-Then you need to ensure that the following binaries are installed in your system: **sha1sum sha256sum sha512sum curl 7za unix2dos gcab**
+Then you need to ensure that the following binaries are installed in your system: **sha1sum sha256sum sha512sum curl 7za unix2dos gcab mkisofs**
 
 On Ubuntu you can do:
 
 ```
-sudo apt install curl 7zip dos2unix gcab
+sudo apt install curl 7zip dos2unix gcab mkisofs
 ```
 
 Then to run `CreateArchive.sh`
