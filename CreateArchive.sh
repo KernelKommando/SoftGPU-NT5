@@ -170,6 +170,9 @@ echo "Creating archives for release..."
 	cd ..
 	mkisofs -input-charset "cp437" -iso-level 1 -joliet -rational-rock -V $isoVolume -output ./output/$filename$release$date$extiso ./output
 	mv ./$filename$release$date$extzip ./output
+	cd output
+	sha256sum $filename$release$date.* > sha256.txt
+	unix2dos sha256.txt
 echo "Done."
 
 echo " "
